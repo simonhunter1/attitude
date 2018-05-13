@@ -3,6 +3,7 @@
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
 #include <Servo.h>
+
 /* This driver reads raw data from the BNO055
 
    Connections
@@ -12,6 +13,7 @@
    Connect VDD to 3.3V DC
    Connect GROUND to common ground
 */
+
 //uncomment this line if using a Common Anode LED
 #define COMMON_ANODE
 
@@ -40,7 +42,6 @@ Adafruit_BNO055 bno = Adafruit_BNO055();
 /**************************************************************************/
 void setup(void)
 {
-//  setColor(0,0,0);
   /* Initialise the sensor */
   if(!bno.begin())
   {
@@ -50,7 +51,6 @@ void setup(void)
   }
 
   delay(500);
-
 
   bno.setExtCrystalUse(true);
 
@@ -90,14 +90,12 @@ void loop(void)
 
   //show status of roll (in limit etc)
   if (valy > 60 && valy < 120) {
-  ledStatusOK();
+    ledStatusOK();
   } 
   else {
     ledTooMuchRoll();
   }
 
-  
- // ledStatusOK();
   delay(BNO055_SAMPLERATE_DELAY_MS);
 }
 
@@ -113,19 +111,18 @@ void ledStartup()
   delay(250);
 }
 
-void ledSpeak()
+void ledTooMuchRoll()
 {
-  // make the LED cycle through some colors to show it's powered up
-
- for (int looper = 0; looper < 3; looper++){
-  
   setColor(255, 0, 0);
-  delay(50);
+}
+
+void ledStatusOK()
+{
   setColor(0, 255, 0);
-  delay(50);
+}
+void ledStatusError()
+{
   setColor(0, 0, 255);
-  delay(50);
- }
 }
 
 // easy way to set colors on LED
@@ -139,20 +136,6 @@ void setColor(int red, int green, int blue)
   analogWrite(redPin, red);
   analogWrite(greenPin, green);
   analogWrite(bluePin, blue);  
-}
-
-void ledTooMuchRoll()
-{
-  setColor(255, 0, 0);
-}
-
-void ledStatusOK()
-{
-  setColor(0, 255, 0);
-}
-void ledStatusError()
-{
-  setColor(0, 0, 255);
 }
 
 //the end
